@@ -19,3 +19,13 @@ variable "reboot_script" {
   description = "Shell script to reboot the system."
   default     = "reboot.sh"
 }
+
+variable "instance_type" {
+  description = "Virtual machine tshirt size"
+  default     = "t2.micro"
+}
+
+variable "ami" {
+  description = "Virtual machine aws ami'
+}
+

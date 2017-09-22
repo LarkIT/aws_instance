@@ -21,22 +21,24 @@ data "template_cloudinit_config" "hostname" {
   }
 }
 
-#resource "aws_instance" "jumphost-01" {
-#    ami = "${lookup(var.amis, var.aws_region)}"
-#    availability_zone = "us-east-2a"
-#    instance_type = "t2.micro"
-#    key_name = "${var.aws_key_name}"
-#    vpc_security_group_ids = ["${aws_security_group.general.id}", "${aws_security_group.ssh_jump.id}"]
-#    subnet_id = "${aws_subnet.us-east-2a-dmz.id}"
-#    user_data = "${data.template_cloudinit_config.jumphost-01.rendered}"
-#    iam_instance_profile = "${var.iam_instance_profile}"
-#    lifecycle {
-#      ignore_changes = ["user_data"]
-#    }
-#    tags {
-#        Name = "${var.host_prefix}-jumphost-01"
-#    }
-#}
+resource "aws_instance" "hostname" {
+    ami                    = "${var.ami}"
+    availability_zone      = "${var.region}${var.availability_zone}"
+    instance_type          = "${var.instance_type}"
+    key_name               = "${var.aws_key_name}"
+    vpc_security_group_ids = ["${aws_security_group.general.id}", "${aws_security_group.ssh_jump.id}"]
+    subnet_id              = "${aws_subnet.us-east-2a-dmz.id}"
+    user_data              = "${data.template_cloudinit_config.hostname.rendered}"
+#    iam_instance_profile   = "${var.iam_instance_profile}"
+
+    lifecycle {
+      ignore_changes = ["user_data"]
+    }
+
+    tags {
+        Name = "${var.host_prefix}-${var.hostname}"
+    }
+}
 
 #resource "aws_route53_record" "jumphost-01" {
 #  zone_id = "${aws_route53_zone.internal.id}"
