@@ -1,25 +1,25 @@
-data "template_file" "bootstrap-jumphost-01" {
+data "template_file" "bootstrap" {
   template = "${file("${path.module}/templates/bootstrap.sh.tpl")}"
   vars {
-    hostname = "${var.host_prefix}-jumphost-01.${var.internal_domain_name}"
+    hostname = "${var.host_prefix}-${var.hostname}.${var.internal_domain_name}"
     puppet_server = "${var.host_prefix}-foreman-01.${var.internal_domain_name}"
     puppet_env = "production"
     role = "jumphost"
   }
 }
 
-data "template_cloudinit_config" "jumphost-01" {
-  part {
-    filename = "bootstrap.sh"
-    content_type = "text/x-shellscript"
-    content = "${data.template_file.bootstrap-jumphost-01.rendered}"
-  }
-  part {
-    filename = "reboot.sh"
-    content_type = "text/x-shellscript"
-    content = "${file("${path.module}/templates/reboot.sh")}"
-  }
-}
+#data "template_cloudinit_config" "jumphost-01" {
+#  part {
+#    filename = "bootstrap.sh"
+#    content_type = "text/x-shellscript"
+#    content = "${data.template_file.bootstrap-jumphost-01.rendered}"
+#  }
+#  part {
+#    filename = "reboot.sh"
+#    content_type = "text/x-shellscript"
+#    content = "${file("${path.module}/templates/reboot.sh")}"
+#  }
+#}
 
 #resource "aws_instance" "jumphost-01" {
 #    ami = "${lookup(var.amis, var.aws_region)}"
