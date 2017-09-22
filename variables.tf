@@ -26,6 +26,6 @@ variable "instance_type" {
 }
 
 variable "ami" {
-  description = "Virtual machine aws ami'
+  description = "Virtual machine aws ami"
 }
 
