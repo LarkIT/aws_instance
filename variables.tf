@@ -30,3 +30,12 @@ variable "ami" {
   default     = "ami-f5d7f195"
 }
 
+variable "availability_zone" {
+  description = "VPC network availability zone"
+  default     = "a"
+}
+
+variable "aws_key_name" {
+  description = "SSH Public Key Name in AWS"
+  default = "lark-provisioning"
+}
