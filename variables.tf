@@ -27,5 +27,6 @@ variable "instance_type" {
 
 variable "ami" {
   description = "Virtual machine aws ami"
+  default     = "ami-f5d7f195"
 }
 
