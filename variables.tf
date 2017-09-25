@@ -1,5 +1,9 @@
-variable "hostname" {
+variable "region" {
   description = "The AWS region."
+}
+
+variable "hostname" {
+  description = "The AWS hostname assigned to the server."
 }
 
 variable "host_prefix" {
