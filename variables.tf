@@ -34,6 +34,14 @@ variable "ami" {
   default     = "ami-f5d7f195"
 }
 
+variable "centos-amis"{ # Centos 7
+    description = "AMIs by region"
+    default = {
+        us-east-2 = "ami-6a2d760f"
+        us-west-2 = "ami-f4533694"
+    }
+}
+
 variable "availability_zone" {
   description = "VPC network availability zone"
   default     = "a"
@@ -49,5 +57,9 @@ variable "group_id" {
 }
 
 variable "general_id" {
+  description = "SSH Public Key Name in AWS"
+}
+
+variable "subnet_id" {
   description = "SSH Public Key Name in AWS"
 }
