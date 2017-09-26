@@ -61,7 +61,3 @@ variable "general_id" {
 variable "subnet_id" {
   description = "SSH Public Key Name in AWS"
 }
-
-variable "iam_instance_profile" {
-  description = "SSH Public Key Name in AWS"
-}

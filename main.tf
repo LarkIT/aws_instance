@@ -29,7 +29,7 @@ resource "aws_instance" "hostname" {
     vpc_security_group_ids = ["${var.general_id}" ]
     subnet_id              = "${var.subnet_id}"
     user_data              = "${data.template_cloudinit_config.hostname.rendered}"
-#    iam_instance_profile   = "${var.iam_instance_profile}"
+    iam_instance_profile   = "${var.iam_instance_profile}"
 
     lifecycle {
       ignore_changes = ["user_data"]
