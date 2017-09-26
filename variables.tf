@@ -56,10 +56,6 @@ variable "general_id" {
   description = "SSH Public Key Name in AWS"
 }
 
-variable "general_id" {
-  description = "SSH Public Key Name in AWS"
-}
-
 variable "subnet_id" {
   description = "SSH Public Key Name in AWS"
 }
