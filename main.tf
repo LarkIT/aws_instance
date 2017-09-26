@@ -38,11 +38,11 @@ resource "aws_eip" "hostname" {
 
 resource "aws_route53_record" "hostname-ext" {
   count   = "${var.external_dns_enable}"
-  zone_id = "${aws_route53_zone.external.id}"
+  zone_id = "${var.route53_external_id}"
   name    = "${aws_instance.hostname.tags.Name}"
   type    = "A"
   ttl     = "300"
-  records = ["${aws_eip.jumphost-01.public_ip}"]
+  records = ["${aws_eip.hostname.public_ip}"]
 }
 
 output "jumphost-01-ext" {
