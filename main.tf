@@ -21,9 +21,9 @@
 #  }
 #}
 
-module "bootstrap" {
-  source = "./bootstrap"
-}
+#module "bootstrap" {
+#  source = "./bootstrap"
+#}
 
 resource "aws_instance" "hostname" {
     ami                    = "${var.ami}"
