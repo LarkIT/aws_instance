@@ -45,11 +45,11 @@ resource "aws_route53_record" "hostname-ext" {
   records = ["${aws_eip.hostname.public_ip}"]
 }
 
-output "jumphost-01-ext" {
+output "hostname-ext" {
   value = "${aws_route53_record.hostname-ext.fqdn} (${aws_eip.hostname.public_ip})"
 }
 
 # Special SSH Command for JumpHost
-#output "jumphost-01-ssh-command" {
-#  value = "ssh -A centos@${aws_eip.jumphost-01.public_ip} -L 9443:${aws_instance.gitlab-01.tags.Name}:443 -L 2222:${aws_instance.gitlab-01.tags.Name}:22 -L 8443:${aws_instance.foreman-01.tags.Name}:443 "
+#output "hostname-ssh-command" {
+#  value = "ssh -A centos@${aws_eip.hostname.public_ip} -L 9443:${aws_instance.gitlab-01.tags.Name}:443 -L 2222:${aws_instance.gitlab-01.tags.Name}:22 -L 8443:${aws_instance.foreman-01.tags.Name}:443 "
 #}
