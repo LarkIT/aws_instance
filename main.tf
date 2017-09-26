@@ -26,15 +26,15 @@ resource "aws_route53_record" "route53_record" {
   records = ["${aws_instance.hostname.private_ip}"]
 }
 
-#output "jumphost-01" {
-#  value = "${aws_route53_record.jumphost-01.name} (${aws_instance.jumphost-01.private_ip})\t[${aws_eip.jumphost-01.public_ip}]"
-#}
+output "hostname" {
+  value = "${aws_route53_record.jumphost-01.name} (${aws_instance.jumphost-01.private_ip})\t[${aws_eip.jumphost-01.public_ip}]"
+}
 
 # External DNS
-#resource "aws_eip" "jumphost-01" {
-#    instance = "${aws_instance.jumphost-01.id}"
-#    vpc = true
-#}
+resource "aws_eip" "hostname" {
+    instance = "${aws_instance.hostname.id}"
+    vpc = true
+}
 
 #resource "aws_route53_record" "jumphost-01-ext" {
 #  count = "${var.external_dns_enable}"
