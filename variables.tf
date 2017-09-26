@@ -34,12 +34,14 @@ variable "ami" {
   default     = "ami-f5d7f195"
 }
 
-variable "centos-amis"{ # Centos 7
-    description = "AMIs by region"
-    default = {
-        us-east-2 = "ami-6a2d760f"
-        us-west-2 = "ami-f4533694"
-    }
+variable "centos7-ami"{
+  description = "AMIs by region"
+  default = {
+    us-east-1 = "ami-46c1b650"
+    us-east-2 = "ami-18f8df7d"
+    us-west-1 = "ami-f4533694"
+    us-west-2 = "ami-f5d7f195"
+  }
 }
 
 variable "availability_zone" {
