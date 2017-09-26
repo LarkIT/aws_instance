@@ -19,7 +19,7 @@ resource "aws_instance" "hostname" {
 }
 
 resource "aws_route53_record" "route53_record" {
-  zone_id = "${aws_route53_zone.internal.id}"
+  zone_id = "${var.route53_internal_id}"
   name    = "${aws_instance.hostname.tags.Name}"
   type    = "A"
   ttl     = "300"
