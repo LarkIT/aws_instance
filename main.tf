@@ -20,7 +20,7 @@ resource "aws_instance" "hostname" {
 
 resource "aws_route53_record" "route53_record" {
   zone_id = "${aws_route53_zone.internal.id}"
-  name    = "${aws_instance.jumphost-01.tags.Name}"
+  name    = "${aws_instance.hostname.tags.Name}"
   type    = "A"
   ttl     = "300"
   records = ["${aws_instance.hostname.private_ip}"]

@@ -66,3 +66,7 @@ variable "iam_instance_profile" {
   description = "SSH Public Key Name in AWS"
   default     = "basicServer"
 }
+
+variable "route53_internal_id" {
+  description = "SSH Public Key Name in AWS"
+}
