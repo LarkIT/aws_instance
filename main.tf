@@ -18,13 +18,13 @@ resource "aws_instance" "hostname" {
     }
 }
 
-#resource "aws_route53_record" "jumphost-01" {
-#  zone_id = "${aws_route53_zone.internal.id}"
-#  name    = "${aws_instance.jumphost-01.tags.Name}"
-#  type    = "A"
-#  ttl     = "300"
-#  records = ["${aws_instance.jumphost-01.private_ip}"]
-#}
+resource "aws_route53_record" "route53_record" {
+  zone_id = "${aws_route53_zone.internal.id}"
+  name    = "${aws_instance.jumphost-01.tags.Name}"
+  type    = "A"
+  ttl     = "300"
+  records = ["${aws_instance.hostname.private_ip}"]
+}
 
 #output "jumphost-01" {
 #  value = "${aws_route53_record.jumphost-01.name} (${aws_instance.jumphost-01.private_ip})\t[${aws_eip.jumphost-01.public_ip}]"
