@@ -36,18 +36,18 @@ resource "aws_eip" "hostname" {
     vpc = true
 }
 
-#resource "aws_route53_record" "jumphost-01-ext" {
-#  count = "${var.external_dns_enable}"
-#  zone_id = "${aws_route53_zone.external.id}"
-#  name    = "${aws_instance.jumphost-01.tags.Name}"
-#  type    = "A"
-#  ttl     = "300"
-#  records = ["${aws_eip.jumphost-01.public_ip}"]
-#}
+resource "aws_route53_record" "hostname-ext" {
+  count   = "${var.external_dns_enable}"
+  zone_id = "${aws_route53_zone.external.id}"
+  name    = "${aws_instance.hostname.tags.Name}"
+  type    = "A"
+  ttl     = "300"
+  records = ["${aws_eip.jumphost-01.public_ip}"]
+}
 
-#output "jumphost-01-ext" {
-#  value = "${aws_route53_record.jumphost-01-ext.fqdn} (${aws_eip.jumphost-01.public_ip})"
-#}
+output "jumphost-01-ext" {
+  value = "${aws_route53_record.hostname-ext.fqdn} (${aws_eip.hostname.public_ip})"
+}
 
 # Special SSH Command for JumpHost
 #output "jumphost-01-ssh-command" {
