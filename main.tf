@@ -18,7 +18,7 @@ resource "aws_instance" "hostname" {
     }
 }
 
-resource "aws_route53_record" "route53_record" {
+resource "aws_route53_record" hostname" {
   zone_id = "${var.route53_internal_id}"
   name    = "${aws_instance.hostname.tags.Name}"
   type    = "A"
@@ -27,7 +27,7 @@ resource "aws_route53_record" "route53_record" {
 }
 
 output "hostname" {
-  value = "${aws_route53_record.jumphost-01.name} (${aws_instance.jumphost-01.private_ip})\t[${aws_eip.jumphost-01.public_ip}]"
+  value = "${aws_route53_record.hostname.name} (${aws_instance.hostname.private_ip})\t[${aws_eip.hostname.public_ip}]"
 }
 
 # External DNS
