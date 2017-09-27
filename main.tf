@@ -1,6 +1,6 @@
 
 resource "aws_instance" "hostname" {
-    count                  = "${var.number_of_instances}"
+#    count                  = "${var.number_of_instances}"
 #    ami                    = "${var.ami}"
     ami                    = "${lookup(var.centos7-ami, var.region)}"
     availability_zone      = "${var.region}${var.availability_zone}"
@@ -16,7 +16,7 @@ resource "aws_instance" "hostname" {
     }
 
     tags {
-        Name = "${var.host_prefix}-${var.hostname}-${count.index}"
+        Name = "${var.host_prefix}-${var.hostname}"
     }
 }
 
