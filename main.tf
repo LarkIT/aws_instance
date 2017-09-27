@@ -22,13 +22,11 @@ resource "aws_instance" "ec2_host" {
 
 resource "aws_route53_record" "hostname" {
   name    = "${var.host_prefix}-${var.hostname}-${count.index}"
-#  name    = "${aws_instance.hostname.tags.Name}"
   count   = "${var.number_of_instances}"
   zone_id = "${var.route53_internal_id}"
   type    = "A"
   ttl     = "300"
-#  records = ["${aws_instance.hostname.private_ip}"]
-  records = [ "${var.host_prefix}-${var.hostname}-${count.index}.private_ip" ]
+  records = [ "${var.host_prefix}-${var.hostname}.[${count.index}].private_ip" ]
 }
 
 #output "hostname" {
