@@ -21,12 +21,13 @@ resource "aws_instance" "hostname" {
 }
 
 resource "aws_route53_record" "hostname" {
+  count   = "${var.number_of_instances}"
   zone_id = "${var.route53_internal_id}"
 #  name    = "${aws_instance.hostname.tags.Name}"
   name    = "${var.host_prefix}-${var.hostname}-${count.index}"
   type    = "A"
   ttl     = "300"
-  records = ["${aws_instance.hostname.private_ip}"]
+  records = ["${aws_instance.hostname[${count.index}].private_ip}"]
 }
 
 #output "hostname" {
