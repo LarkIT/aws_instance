@@ -28,7 +28,7 @@ resource "aws_route53_record" "hostname" {
   type    = "A"
   ttl     = "300"
 #  records = ["${aws_instance.hostname.private_ip}"]
-  records = [ "${aws_instance.ec2_host.private_ip}" ]
+  records = [ "${var.host_prefix}-${var.hostname}-${count.index}.private_ip" ]
 }
 
 #output "hostname" {
