@@ -1,6 +1,7 @@
 
 resource "aws_instance" "hostname" {
-    ami                    = "${var.ami}"
+#    ami                    = "${var.ami}"
+    ami                    = "${lookup(var.centos7-ami, var.region)}"
     availability_zone      = "${var.region}${var.availability_zone}"
     instance_type          = "${var.instance_type}"
     key_name               = "${var.aws_key_name}"
