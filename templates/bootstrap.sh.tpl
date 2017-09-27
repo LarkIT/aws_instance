@@ -14,6 +14,7 @@ yum -y install puppet-agent
 ## Role
 #mkdir -p /etc/puppetlabs/facter/facts.d
 #echo "role=$role" > /etc/puppetlabs/facter/facts.d/role.txt
+mkdir -p /etc/puppetlabs/puppet
 cat > /etc/puppetlabs/puppet/csr_attributes.yaml << YAML
 # custom_attributes:
 #     1.2.840.113549.1.9.7: mySuperAwesomePassword
