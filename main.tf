@@ -16,7 +16,7 @@ resource "aws_instance" "hostname" {
     }
 
     tags {
-        Name = "${var.host_prefix}-${var.hostname}"
+        Name = "${var.host_prefix}-${var.hostname}-${count.index}"
     }
 }
 
