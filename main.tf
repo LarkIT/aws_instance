@@ -1,7 +1,6 @@
-#
+
 resource "aws_instance" "hostname" {
     count                  = "${var.number_of_instances}"
-##    ami                    = "${var.ami}"
     ami                    = "${lookup(var.centos7-ami, var.region)}"
     availability_zone      = "${var.region}${var.availability_zone}"
     instance_type          = "${var.instance_type}"
@@ -21,14 +20,15 @@ resource "aws_instance" "hostname" {
     }
 }
 
-#resource "aws_route53_record" "hostname" {
-#  zone_id = "${var.route53_internal_id}"
+resource "aws_route53_record" "hostname" {
+  zone_id = "${var.route53_internal_id}"
 #  name    = "${aws_instance.hostname.tags.Name}"
-#  type    = "A"
-#  ttl     = "300"
-#  records = ["${aws_instance.hostname.private_ip}"]
-#}
-#
+  name    = "${var.host_prefix}-${var.hostname}-${count.index}"
+  type    = "A"
+  ttl     = "300"
+  records = ["${aws_instance.hostname.private_ip}"]
+}
+
 #output "hostname" {
 #  value = "${aws_route53_record.hostname.name} (${aws_instance.hostname.private_ip})\t[${aws_eip.hostname.public_ip}]"
 #}
