@@ -56,7 +56,7 @@ variable "aws_key_name" {
 
 variable "general_id" {
   description = "SSH Public Key Name in AWS"
-  default     = []
+  type        = list
 }
 
 variable "subnet_id" {
