@@ -1,5 +1,5 @@
 
-resource "aws_instance" "hostname" {
+resource "aws_instance" "ec2_host" {
     count                  = "${var.number_of_instances}"
     ami                    = "${lookup(var.centos7-ami, var.region)}"
     availability_zone      = "${var.region}${var.availability_zone}"
@@ -21,13 +21,14 @@ resource "aws_instance" "hostname" {
 }
 
 resource "aws_route53_record" "hostname" {
+  name    = "${var.host_prefix}-${var.hostname}-${count.index}"
+#  name    = "${aws_instance.hostname.tags.Name}"
   count   = "${var.number_of_instances}"
   zone_id = "${var.route53_internal_id}"
-#  name    = "${aws_instance.hostname.tags.Name}"
-  name    = "${var.host_prefix}-${var.hostname}-${count.index}"
   type    = "A"
   ttl     = "300"
-  records = ["${aws_instance.hostname.${count.index}.private_ip}"]
+#  records = ["${aws_instance.hostname.private_ip}"]
+  records = "${aws_instance.hostname.private_ip}"
 }
 
 #output "hostname" {
