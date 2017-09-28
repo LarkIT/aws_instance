@@ -6,6 +6,8 @@
 [ -d /etc/cloud/cloud.cfg.d ] && echo "preserve_hostname: true" > /etc/cloud/cloud.cfg.d/99_hostname.cfg
 hostnamectl set-hostname ${hostname}
 
+sleep 10
+
 # Updates and install Puppet Agent
 yum -y update
 yum -y install https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
