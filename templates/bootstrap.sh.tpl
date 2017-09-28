@@ -9,7 +9,7 @@ hostnamectl set-hostname ${hostname}
 # Updates and install Puppet Agent
 yum -y update
 yum -y install https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
-yum -y install puppet-agent
+yum -y install puppet-agent augeas
 
 ## Role
 #mkdir -p /etc/puppetlabs/facter/facts.d

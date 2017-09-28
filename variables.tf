@@ -85,3 +85,7 @@ variable "number_of_instances" {
   description = "Number of virutal machines to create."
   default     = "1"
 }
+
+variable "role" {
+  description = "Puppet classification role"
+}
