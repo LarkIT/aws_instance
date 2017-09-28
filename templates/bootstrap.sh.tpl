@@ -11,7 +11,7 @@ sleep 10
 # Updates and install Puppet Agent
 yum -y update
 yum -y install https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
-yum -y install puppet-agent augeas
+yum -y install puppet-agent
 
 ## Role
 #mkdir -p /etc/puppetlabs/facter/facts.d
