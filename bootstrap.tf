@@ -14,7 +14,7 @@ data "template_file" "bootstrap" {
 #  vars     = "${data.template_file.bootstrap-foreman-01.vars}"
 #}
 
-data "template_cloudinit_config" "hostname-foreman" {
+data "template_cloudinit_config" "hostname" {
   part {
     filename     = "${var.bootscript_script}"
     content_type = "text/x-shellscript"
