@@ -34,16 +34,16 @@ data "template_cloudinit_config" "hostname" {
   }
 }
 
-data "template_cloudinit_config" "hostname" {
-  part {
-    filename     = "${var.bootscript_script}"
-    content_type = "text/x-shellscript"
-    content      = "${data.template_file.bootstrap.rendered}"
-  }
-
-  part {
-    filename     = "${var.reboot_script}"
-    content_type = "text/x-shellscript"
-    content      = "${file("${path.module}/templates/reboot.sh")}"
-  }
-}
+#data "template_cloudinit_config" "hostname" {
+#  part {
+#    filename     = "${var.bootscript_script}"
+#    content_type = "text/x-shellscript"
+#    content      = "${data.template_file.bootstrap.rendered}"
+#  }
+#
+#  part {
+#    filename     = "${var.reboot_script}"
+#    content_type = "text/x-shellscript"
+#    content      = "${file("${path.module}/templates/reboot.sh")}"
+#  }
+#}
