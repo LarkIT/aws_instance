@@ -9,10 +9,10 @@ data "template_file" "bootstrap" {
   }
 }
 
-#data "template_file" "foreman-install" {
-#  template = "${file("${path.module}/templates/foreman-install.sh.tpl")}"
-#  vars     = "${data.template_file.bootstrap-foreman-01.vars}"
-#}
+data "template_file" "foreman-install" {
+  template = "${file("${path.module}/templates/foreman-install.sh.tpl")}"
+  vars     = "${data.template_file.bootstrap-foreman-01.vars}"
+}
 
 data "template_cloudinit_config" "hostname" {
   part {
