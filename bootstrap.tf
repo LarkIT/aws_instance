@@ -24,7 +24,7 @@ data "template_cloudinit_config" "hostname" {
   part {
     filename = "foreman-install.sh"
     content_type = "text/x-shellscript"
-    content = "${data.template_file.hostname.rendered}"
+    content = "${data.template_file.bootstrap.rendered}"
   }
 
   part {
