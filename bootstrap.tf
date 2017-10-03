@@ -9,26 +9,21 @@ data "template_file" "bootstrap" {
   }
 }
 
-data "template_file" "bootstrap-foreman-01" {
-  template = "${file("${path.module}/templates/bootstrap.sh")}"
+data "template_file" "foreman" {
+  template = "${file("${path.module}/templates/foreman-install.sh.tpl")}"
   vars {
-#    ad_domain = "${var.ad_domain_name}"
-#    ad_shortname = "${var.short_name}"
-#    joiner_account = "${var.joiner_account}"
-#    joiner_pw = "${var.joiner_password}"
-#    ad_dns = "['${join("','", aws_directory_service_directory.dsdomain.dns_ip_addresses)}']"
-    hostname = "${var.host_prefix}-foreman-01.${var.ad_domain_name}"
+    hostname      = "${var.host_prefix}-foreman-01.${var.ad_domain_name}"
     puppet_server = "${var.host_prefix}-foreman-01.${var.ad_domain_name}"
     gitlab_server = "${var.host_prefix}-gitlab-01.${var.ad_domain_name}"
-    puppet_env = "production"
-    role = "foreman"
+    puppet_env    = "production"
+    role          = "${var.role}"
   }
 }
 
-data "template_file" "foreman-install" {
-  template = "${file("${path.module}/templates/foreman-install.sh.tpl")}"
-  vars     = "${data.template_file.hostname.vars}"
-}
+#data "template_file" "foreman-install" {
+#  template = "${file("${path.module}/templates/foreman-install.sh.tpl")}"
+#  vars     = "${data.template_file.hostname.vars}"
+#}
 
 data "template_cloudinit_config" "hostname" {
   part {
@@ -40,7 +35,7 @@ data "template_cloudinit_config" "hostname" {
   part {
     filename = "foreman-install.sh"
     content_type = "text/x-shellscript"
-    content = "${data.template_file.bootstrap.rendered}"
+    content = "${data.template_file.foreman.rendered}"
   }
 
   part {
