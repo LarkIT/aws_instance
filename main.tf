@@ -1,8 +1,5 @@
 
 resource "aws_instance" "hostname" {
-#    count                  = "${var.number_of_instances}"
-#    ami                    = "${var.ami}"
-#    count                  = "${length(var.role)}"
     ami                    = "${lookup(var.centos7-ami, var.region)}"
     availability_zone      = "${var.region}${var.availability_zone}"
     instance_type          = "${var.instance_type}"
@@ -11,12 +8,6 @@ resource "aws_instance" "hostname" {
     subnet_id              = "${var.subnet_id}"
 #    user_data              = "${data.template_cloudinit_config.hostname.rendered}"
     user_data              = "${var.bootstrap}"
-#    user_data              = "${file(var.user_data)}"
-#    user_data              = "${data.template_file.foreman.rendered}"
-#    user_data              = "${replace(data.template_cloudinit_config.role.rendered, "role", var.role)}"
-#    user_data              = "${data.template_cloudinit_config.foreman.rendered}"
-#    user_data              = "${element(data.template_cloudinit_config.*.rendered, var.role)}"
-#    user_data               = "${element(data.template_cloudinit_config.*.rendered, count.index)}"
     iam_instance_profile   = "${var.iam_instance_profile}"
 
     lifecycle {
