@@ -2,6 +2,7 @@
 resource "aws_instance" "hostname" {
 #    count                  = "${var.number_of_instances}"
 #    ami                    = "${var.ami}"
+    count                  = "${length(var.role)}"
     ami                    = "${lookup(var.centos7-ami, var.region)}"
     availability_zone      = "${var.region}${var.availability_zone}"
     instance_type          = "${var.instance_type}"
@@ -9,7 +10,8 @@ resource "aws_instance" "hostname" {
     vpc_security_group_ids = [ "${var.general_id}" ]
     subnet_id              = "${var.subnet_id}"
 #    user_data              = "${data.template_cloudinit_config.hostname.rendered}"
-    user_data              = "${element(data.template_cloudinit_config.*.rendered, var.role)}"
+#    user_data              = "${element(data.template_cloudinit_config.*.rendered, var.role)}"
+    user_data = "${data.template_cloudinit_config.*.rendered[count.index]}"
     iam_instance_profile   = "${var.iam_instance_profile}"
 
     lifecycle {
