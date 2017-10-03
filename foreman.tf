@@ -1,5 +1,4 @@
 data "template_file" "foreman" {
-  count = 1
   template = "${file("${path.module}/templates/foreman-install.sh.tpl")}"
   vars {
     hostname      = "${var.host_prefix}-foreman-01.${var.internal_domain_name}"
