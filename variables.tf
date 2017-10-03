@@ -90,6 +90,6 @@ variable "role" {
   description = "Puppet classification role"
 }
 
-variables "cloudinit" {
+variables "bootstrap" {
   description = "cloud init template"
 }
