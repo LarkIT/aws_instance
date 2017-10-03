@@ -12,9 +12,9 @@ data "template_file" "bootstrap" {
 data "template_file" "foreman" {
   template = "${file("${path.module}/templates/foreman-install.sh.tpl")}"
   vars {
-    hostname      = "${var.host_prefix}-foreman-01.${var.ad_domain_name}"
-    puppet_server = "${var.host_prefix}-foreman-01.${var.ad_domain_name}"
-    gitlab_server = "${var.host_prefix}-gitlab-01.${var.ad_domain_name}"
+    hostname      = "${var.host_prefix}-foreman-01.${var.internal_domain_name}"
+    puppet_server = "${var.host_prefix}-foreman-01.${var.internal_domain_name}"
+    gitlab_server = "${var.host_prefix}-gitlab-01.${var.internal_domain_name}"
     puppet_env    = "production"
     role          = "${var.role}"
   }
