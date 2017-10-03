@@ -89,3 +89,7 @@ variable "number_of_instances" {
 variable "role" {
   description = "Puppet classification role"
 }
+
+variables "cloudinit" {
+  description = "cloud init template"
+}
