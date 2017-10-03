@@ -9,7 +9,8 @@ resource "aws_instance" "hostname" {
     key_name               = "${var.aws_key_name}"
     vpc_security_group_ids = [ "${var.general_id}" ]
     subnet_id              = "${var.subnet_id}"
-    user_data              = "${data.template_cloudinit_config.hostname.rendered}"
+#    user_data              = "${data.template_cloudinit_config.hostname.rendered}"
+    user_data              = "${replace(data.template_cloudinit_config.role.rendered, "role", var.role}"
 #    user_data              = "${data.template_cloudinit_config.foreman.rendered}"
 #    user_data              = "${element(data.template_cloudinit_config.*.rendered, var.role)}"
 #    user_data               = "${element(data.template_cloudinit_config.*.rendered, count.index)}"
