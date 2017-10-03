@@ -8,7 +8,8 @@ resource "aws_instance" "hostname" {
     key_name               = "${var.aws_key_name}"
     vpc_security_group_ids = [ "${var.general_id}" ]
     subnet_id              = "${var.subnet_id}"
-    user_data              = "${data.template_cloudinit_config.hostname.rendered}"
+#    user_data              = "${data.template_cloudinit_config.hostname.rendered}"
+    user_data              = "${format("data.template_cloudinit_config.%s.rendered", var.role)}"
     iam_instance_profile   = "${var.iam_instance_profile}"
 
     lifecycle {

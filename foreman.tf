@@ -1,7 +1,7 @@
-data "template_file" "bootstrap" {
-  template = "${file("${path.module}/templates/bootstrap.sh.tpl")}"
+data "template_file" "foreman" {
+  template = "${file("${path.module}/templates/foreman-install.sh.tpl")}"
   vars {
-    hostname      = "${var.host_prefix}-${var.hostname}.${var.internal_domain_name}"
+    hostname      = "${var.host_prefix}-foreman-01.${var.internal_domain_name}"
     puppet_server = "${var.host_prefix}-foreman-01.${var.internal_domain_name}"
     gitlab_server = "${var.host_prefix}-gitlab-01.${var.internal_domain_name}"
     puppet_env    = "production"
@@ -21,10 +21,10 @@ data "template_cloudinit_config" "hostname" {
     content      = "${data.template_file.bootstrap.rendered}"
   }
 
-#  part {
-#    filename = "foreman-install.sh"
-#    content_type = "text/x-shellscript"
-#    content = "${data.template_file.foreman.rendered}"
+  part {
+    filename = "foreman-install.sh"
+    content_type = "text/x-shellscript"
+    content = "${data.template_file.foreman.rendered}"
 #  }
 
   part {
