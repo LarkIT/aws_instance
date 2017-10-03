@@ -11,7 +11,7 @@ resource "aws_instance" "hostname" {
     subnet_id              = "${var.subnet_id}"
 #    user_data              = "${data.template_cloudinit_config.hostname.rendered}"
 #    user_data              = "${element(data.template_cloudinit_config.*.rendered, var.role)}"
-    user_data = "${data.template_cloudinit_config.*.rendered[count.index]}"
+    user_data               = "${element(data.template_cloudinit_config.*.rendered, count.index)}"
     iam_instance_profile   = "${var.iam_instance_profile}"
 
     lifecycle {
