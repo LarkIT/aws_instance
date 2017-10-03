@@ -20,6 +20,5 @@ data "template_cloudinit_config" "foreman" {
     filename = "foreman-install.sh"
     content_type = "text/x-shellscript"
     content = "${data.template_file.foreman.rendered}"
-    depends_on = [ "data.template_cloudinit_config.hostname" ]
   }
 }
