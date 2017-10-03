@@ -10,7 +10,13 @@ data "template_file" "foreman" {
   }
 }
 
-data "template_cloudinit_config" "foreman" {
+provisioner "file" {
+  content = "${data.template_file.foreman.rendered}"
+  destination = "/tmp/foreman.sh"
+}
+
+
+#data "template_cloudinit_config" "foreman" {
   
 #  part {
 #    filename     = "${var.bootscript_script}"
@@ -18,16 +24,16 @@ data "template_cloudinit_config" "foreman" {
 #    content      = "${data.template_file.bootstrap.rendered}"
 #  }
 
-  part {
-    filename = "foreman-install.sh"
-    content_type = "text/x-shellscript"
-    content = "${data.template_file.foreman.rendered}"
-    depends_on = [ "data.template_cloudinit_config.hostname" ]
-  }
+#  part {
+#    filename = "foreman-install.sh"
+#    content_type = "text/x-shellscript"
+#    content = "${data.template_file.foreman.rendered}"
+#    depends_on = [ "data.template_cloudinit_config.hostname" ]
+#  }
 
 #  part {
 #    filename     = "${var.reboot_script}"
 #    content_type = "text/x-shellscript"
 #    content      = "${file("${path.module}/templates/reboot.sh")}"
 #  }
-}
+#}
