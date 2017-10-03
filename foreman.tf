@@ -9,12 +9,7 @@ data "template_file" "foreman" {
   }
 }
 
-#data "template_file" "foreman-install" {
-#  template = "${file("${path.module}/templates/foreman-install.sh.tpl")}"
-#  vars     = "${data.template_file.hostname.vars}"
-#}
-
-data "template_cloudinit_config" "hostname" {
+data "template_cloudinit_config" "foreman" {
   part {
     filename     = "${var.bootscript_script}"
     content_type = "text/x-shellscript"
@@ -33,17 +28,3 @@ data "template_cloudinit_config" "hostname" {
     content      = "${file("${path.module}/templates/reboot.sh")}"
   }
 }
-
-#data "template_cloudinit_config" "hostname" {
-#  part {
-#    filename     = "${var.bootscript_script}"
-#    content_type = "text/x-shellscript"
-#    content      = "${data.template_file.bootstrap.rendered}"
-#  }
-#
-#  part {
-#    filename     = "${var.reboot_script}"
-#    content_type = "text/x-shellscript"
-#    content      = "${file("${path.module}/templates/reboot.sh")}"
-#  }
-#}
