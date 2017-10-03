@@ -32,11 +32,11 @@ data "template_cloudinit_config" "hostname" {
     content      = "${data.template_file.bootstrap.rendered}"
   }
 
-  part {
-    filename = "foreman-install.sh"
-    content_type = "text/x-shellscript"
-    content = "${data.template_file.foreman.rendered}"
-  }
+#  part {
+#    filename = "foreman-install.sh"
+#    content_type = "text/x-shellscript"
+#    content = "${data.template_file.foreman.rendered}"
+#  }
 
   part {
     filename     = "${var.reboot_script}"

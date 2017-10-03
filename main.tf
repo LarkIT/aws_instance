@@ -32,8 +32,8 @@ output "hostname" {
   value = "${aws_route53_record.hostname.name} (${aws_instance.hostname.private_ip})\t[${aws_eip.hostname.public_ip}]"
 }
 
-# External DNS
 resource "aws_eip" "hostname" {
+#    count   = "${var.enable_aws_eip}"
     instance = "${aws_instance.hostname.id}"
     vpc = true
 }
