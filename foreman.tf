@@ -9,10 +9,10 @@ data "template_file" "foreman" {
   }
 }
 
-provisioner "file" {
-  content = "${data.template_file.foreman.rendered}"
-  destination = "/tmp/foreman.sh"
-}
+#provisioner "file" {
+#  content = "${data.template_file.foreman.rendered}"
+#  destination = "/tmp/foreman.sh"
+#}
 
 
 #data "template_cloudinit_config" "foreman" {
