@@ -4,7 +4,7 @@ resource "aws_instance" "hostname" {
     availability_zone      = "${var.region}${var.availability_zone}"
     instance_type          = "${var.instance_type}"
     key_name               = "${var.aws_key_name}"
-    vpc_security_group_ids = [ "${var.general_id}" ]
+    vpc_security_group_ids = [ "${var.security_groups}" ]
     subnet_id              = "${var.subnet_id}"
 #    user_data              = "${data.template_cloudinit_config.hostname.rendered}"
     user_data              = "${var.bootstrap}"
