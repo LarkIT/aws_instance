@@ -54,7 +54,7 @@ variable "aws_key_name" {
   default = "lark-provisioning"
 }
 
-variable "general_id" {
+variable "security_groups" {
   description = "SSH Public Key Name in AWS"
   type        = "list"
 }
