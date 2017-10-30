@@ -90,10 +90,10 @@ variable "role" {
   description = "Puppet classification role"
 }
 
-variable "bootstrap" {
-  description = "Puppet classification role"
-  default     = ""
-}
+#variable "bootstrap" {
+#  description = "Puppet classification role"
+#  default     = ""
+#}
 
 variable "enable_aws_eip" {
   description = "External IP to connect to"
