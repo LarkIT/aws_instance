@@ -91,10 +91,10 @@ variable "role" {
   default     = "base"
 }
 
-variable "bootstrap" {
-  description = "Puppet classification role"
-  default     = "${module.bootstrap.base_cloutinit}"
-}
+#variable "bootstrap" {
+#  description = "Puppet classification role"
+#  default     = "${module.bootstrap.base_cloutinit}"
+#}
 
 variable "enable_aws_eip" {
   description = "External IP to connect to"
