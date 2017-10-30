@@ -47,7 +47,7 @@ resource "aws_route53_record" "hostname-ext" {
 }
 
 module "bootstrap" {
-  source               = "git::https://nfosdick@bitbucket.org/larkit/bootstrap.git"
+  source               = "git::https://nfosdick@bitbucket.org/larkit/bootstrap.git?ref=devops460"
   internal_domain_name = "${var.internal_domain_name}"
   host_prefix          = "${var.host_prefix}"
   role                 = "${var.role}"
