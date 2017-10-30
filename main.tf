@@ -32,9 +32,9 @@ output "hostname" {
 }
 
 resource "aws_eip" "hostname" {
-#    count   = "${var.enable_aws_eip}"
+    count    = "${var.enable_aws_eip}"
     instance = "${aws_instance.hostname.id}"
-    vpc = true
+    vpc      = true
 }
 
 resource "aws_route53_record" "hostname-ext" {

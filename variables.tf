@@ -94,3 +94,8 @@ variable "bootstrap" {
   description = "Puppet classification role"
   default     = ""
 }
+
+variable "enable_aws_eip" {
+  description = "External IP to connect to"
+  default     = true
+}
