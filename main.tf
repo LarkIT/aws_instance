@@ -1,3 +1,10 @@
+module "bootstrap" {
+  source               = "git::https://nfosdick@bitbucket.org/larkit/bootstrap.git?ref=devops460"
+  internal_domain_name = "${var.internal_domain_name}"
+  host_prefix          = "${var.host_prefix}"
+  role                 = "${var.role}"
+  hostname             = "${var.host_prefix}-${var.hostname}"
+}
 
 resource "aws_instance" "hostname" {
     ami                    = "${lookup(var.centos7-ami, var.region)}"
@@ -44,14 +51,6 @@ resource "aws_route53_record" "hostname-ext" {
   type    = "A"
   ttl     = "300"
   records = ["${aws_eip.hostname.public_ip}"]
-}
-
-module "bootstrap" {
-  source               = "git::https://nfosdick@bitbucket.org/larkit/bootstrap.git?ref=devops460"
-  internal_domain_name = "${var.internal_domain_name}"
-  host_prefix          = "${var.host_prefix}"
-  role                 = "${var.role}"
-  hostname             = "${var.host_prefix}-${var.hostname}"
 }
 
 output "hostname-ext" {
