@@ -4,6 +4,7 @@ module "bootstrap" {
   host_prefix          = "${var.host_prefix}"
   role                 = "${var.role}"
   hostname             = "${var.host_prefix}-${var.hostname}"
+  region               = "${var.region}" 
 }
 
 resource "aws_instance" "hostname" {
