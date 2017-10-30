@@ -88,6 +88,7 @@ variable "number_of_instances" {
 
 variable "role" {
   description = "Puppet classification role"
+  default     = "base"
 }
 
 #variable "bootstrap" {
