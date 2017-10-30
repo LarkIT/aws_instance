@@ -64,6 +64,13 @@ resource "aws_ebs_volume" "volume" {
   }
 }
 
+resource "aws_volume_attachment" "ebs_att" {
+  count       = "${var.enable_ebs_volume}"
+  device_name = "${var.device_name}"
+  volume_id   = "${aws_ebs_volume.volume.id}"
+  instance_id = "${aws_instance.hostname.id}"
+}
+
 output "hostname-ext" {
   value = "${aws_route53_record.hostname-ext.fqdn} (${aws_eip.hostname.public_ip})"
 }

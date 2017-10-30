@@ -110,3 +110,8 @@ variable "ebs_volume_size" {
   description = "Size of the ebs volume"
   default     = "50"
 }
+
+variable "device_name" {
+  description = "The name of the ebs device"
+  default     = "/dev/sdx"
+}
