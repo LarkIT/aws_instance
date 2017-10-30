@@ -100,3 +100,13 @@ variable "enable_aws_eip" {
   description = "External IP to connect to"
   default     = false
 }
+
+variable "enable_ebs_volume" {
+  description = "Additional ebs volume"
+  default     = false
+}
+
+variable "ebs_volume_size" {
+  description = "Size of the ebs volume"
+  default     = "50"
+}

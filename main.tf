@@ -55,6 +55,15 @@ resource "aws_route53_record" "hostname-ext" {
   records = ["${aws_eip.hostname.public_ip}"]
 }
 
+resource "aws_ebs_volume" "volume" {
+  count             = "${var.enable_ebs_volume}"
+  availability_zone = "${var.region}${var.availability_zone}"
+  size              = "${var.ebs_volume_size}"
+  tags {
+    Name = "Pulp Volume for ${var.host_prefix}-${var.hostname}"
+  }
+}
+
 output "hostname-ext" {
   value = "${aws_route53_record.hostname-ext.fqdn} (${aws_eip.hostname.public_ip})"
 }
