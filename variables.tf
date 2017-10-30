@@ -99,7 +99,3 @@ variable "enable_aws_eip" {
   description = "External IP to connect to"
   default     = false
 }
-
-variable "internal_domain_name" {
-  description = "Internal domain name"
-}
