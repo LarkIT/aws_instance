@@ -46,6 +46,14 @@ resource "aws_route53_record" "hostname-ext" {
   records = ["${aws_eip.hostname.public_ip}"]
 }
 
+module "bootstrap" {
+  source               = "git::https://nfosdick@bitbucket.org/larkit/bootstrap.git"
+  internal_domain_name = "${var.internal_domain_name}"
+  host_prefix          = "${var.host_prefix}"
+  role                 = "${var.role}"
+  hostname             = "${var.host_prefix}-${var.hostname}"
+}
+
 output "hostname-ext" {
   value = "${aws_route53_record.hostname-ext.fqdn} (${aws_eip.hostname.public_ip})"
 }
