@@ -14,7 +14,6 @@ resource "aws_instance" "hostname" {
     key_name               = "${var.aws_key_name}"
     vpc_security_group_ids = [ "${var.security_groups}" ]
     subnet_id              = "${var.subnet_id}"
-#    user_data              = "${data.template_cloudinit_config.hostname.rendered}"
 #    user_data              = "${var.bootstrap}"
     user_data              = "${module.bootstrap.base_cloutinit}"
     iam_instance_profile   = "${var.iam_instance_profile}"
@@ -36,9 +35,9 @@ resource "aws_route53_record" "hostname" {
   records = ["${aws_instance.hostname.private_ip}"]
 }
 
-output "hostname" {
-  value = "${aws_route53_record.hostname.name} (${aws_instance.hostname.private_ip})\t[${aws_eip.hostname.public_ip}]"
-}
+#output "hostname" {
+#  value = "${aws_route53_record.hostname.name} (${aws_instance.hostname.private_ip})\t[${aws_eip.hostname.public_ip}]"
+#}
 
 resource "aws_eip" "hostname" {
     count    = "${var.enable_aws_eip}"
