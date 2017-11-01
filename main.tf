@@ -49,7 +49,8 @@ resource "aws_eip" "hostname" {
 resource "aws_route53_record" "hostname-ext" {
   count   = "${var.external_dns_enable}"
   zone_id = "${var.route53_external_id}"
-  name    = "${aws_instance.hostname.tags.Name}"
+  #name    = "${aws_instance.hostname.tags.Name}"
+  name    = "${var.external_hostname}"
   type    = "A"
   ttl     = "300"
   records = ["${aws_eip.hostname.public_ip}"]

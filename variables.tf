@@ -81,6 +81,10 @@ variable "external_dns_enable" {
   default     = false
 }
 
+variable "external_hostname" {
+  description = "Enable an external dns on hostname"
+}
+
 variable "number_of_instances" {
   description = "Number of virutal machines to create."
   default     = "1"
