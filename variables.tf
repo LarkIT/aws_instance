@@ -83,6 +83,7 @@ variable "external_dns_enable" {
 
 variable "external_hostname" {
   description = "Enable an external dns on hostname"
+  default     = "aws.lark-it.com"
 }
 
 variable "number_of_instances" {
