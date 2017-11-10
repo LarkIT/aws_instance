@@ -97,6 +97,11 @@ variable "role" {
   default     = "base"
 }
 
+variable "pp_env" {
+  description = "Puppet environment"
+  default     = "production"
+}
+
 #variable "bootstrap" {
 #  description = "Puppet classification role"
 #  default     = "${module.bootstrap.base_cloutinit}"

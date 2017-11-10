@@ -3,6 +3,7 @@ module "bootstrap" {
   internal_domain_name = "${var.internal_domain_name}"
   host_prefix          = "${var.host_prefix}"
   role                 = "${var.role}"
+  pp_env               = "${var.pp_env}"
   hostname             = "${var.hostname}"
   region               = "${var.region}" 
 }
