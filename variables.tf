@@ -119,7 +119,7 @@ variable "enable_ebs_volume" {
 
 variable "ebs_volume_size" {
   description = "Size of the ebs volume"
-  default     = "50"
+  default     = "30"
 }
 
 variable "device_name" {
