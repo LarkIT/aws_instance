@@ -127,7 +127,7 @@ variable "device_name" {
   default     = "/dev/xvdf"
 }
 
-#variable "template_name" {
-#  description = "Trusted fact pp_env setting"
-#  default     = "blank"
-#}
+variable "template_name" {
+  description = "Trusted fact pp_env setting"
+  default     = "blank"
+}
