@@ -126,3 +126,8 @@ variable "device_name" {
   description = "The name of the ebs device"
   default     = "/dev/xvdf"
 }
+
+variable "template_name" {
+  description = "Trusted fact pp_env setting"
+  default     = "blank"
+}

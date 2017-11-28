@@ -6,6 +6,7 @@ module "bootstrap" {
   pp_env               = "${var.pp_env}"
   hostname             = "${var.hostname}"
   region               = "${var.region}" 
+  template_name        = "${var.template_name}"
 }
 
 resource "aws_instance" "hostname" {
@@ -16,7 +17,8 @@ resource "aws_instance" "hostname" {
     vpc_security_group_ids = [ "${var.security_groups}" ]
     subnet_id              = "${var.subnet_id}"
 #    user_data              = "${var.bootstrap}"
-    user_data              = "${module.bootstrap.base_cloutinit}"
+#    user_data              = "${module.bootstrap.base_cloutinit}"
+    user_data              = "${module.bootstrap.${var.template_name}_cloutinit}"
     iam_instance_profile   = "${var.iam_instance_profile}"
 
     lifecycle {
