@@ -61,6 +61,7 @@ resource "aws_ebs_volume" "volume" {
   count             = "${var.enable_ebs_volume}"
   availability_zone = "${var.region}${var.availability_zone}"
   size              = "${var.ebs_volume_size}"
+  type              = "${var.ebs_type}"
   tags {
     Name = "${var.role} Volume for ${var.host_prefix}-${var.hostname}"
   }

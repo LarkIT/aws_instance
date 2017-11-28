@@ -117,6 +117,11 @@ variable "enable_ebs_volume" {
   default     = false
 }
 
+variable "ebs_type" {
+  description = "The type of EBS volume."
+  default     = "gp2"
+}
+
 variable "ebs_volume_size" {
   description = "Size of the ebs volume"
   default     = "30"
