@@ -6,7 +6,7 @@ module "bootstrap" {
   pp_env               = "${var.pp_env}"
   hostname             = "${var.hostname}"
   region               = "${var.region}" 
-  template_name        = "${var.template_name}"
+#  template_name        = "${var.template_name}"
 }
 
 resource "aws_instance" "hostname" {
