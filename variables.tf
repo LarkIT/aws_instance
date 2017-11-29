@@ -40,7 +40,8 @@ variable "centos7-ami"{
     us-east-1 = "ami-46c1b650"
     us-east-2 = "ami-18f8df7d"
     us-west-1 = "ami-f5d7f195"
-    us-west-2 = "ami-f4533694"
+#    us-west-2 = "ami-f4533694"
+    us-west-2 = "ami-e535c59d"
   }
 }
 
