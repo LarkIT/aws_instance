@@ -20,7 +20,7 @@ resource "aws_instance" "hostname" {
     iam_instance_profile   = "${var.iam_instance_profile}"
 
     lifecycle {
-      ignore_changes = ["user_data", "ami"]
+      ignore_changes = ["user_data"]
     }
 
     tags {
