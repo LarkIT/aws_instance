@@ -79,7 +79,7 @@ variable "route53_external_id" {
 
 variable "external_dns_enable" {
   description = "Enable an external dns on hostname"
-  default     = 0
+  default     = false
 }
 
 variable "external_hostname" {
