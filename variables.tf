@@ -74,12 +74,12 @@ variable "route53_internal_id" {
 
 variable "route53_external_id" {
   description = "SSH Public Key Name in AWS"
-  default     = "na"
+  default     = ""
 }
 
 variable "external_dns_enable" {
   description = "Enable an external dns on hostname"
-  default     = false
+  default     = 0
 }
 
 variable "external_hostname" {
