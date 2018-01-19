@@ -1,5 +1,5 @@
 module "bootstrap" {
-  source               = "git::https://nfosdick@bitbucket.org/larkit/bootstrap.git"
+  source               = "git::https://github.com/LarkIT/bootstrap.git?ref=v0.0.1"
   internal_domain_name = "${var.internal_domain_name}"
   host_prefix          = "${var.host_prefix}"
   role                 = "${var.role}"
