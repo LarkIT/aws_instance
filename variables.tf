@@ -132,10 +132,6 @@ variable "device_name" {
   default     = "/dev/xvdf"
 }
 
-variable "pulp_device_name" {
-  description = "Filesystem path for Pulp block device"
-  default = "/dev/xvdg"
-}
 
 variable "bootstrap_template" {
   description = "Custom bootstrap template"

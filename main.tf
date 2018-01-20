@@ -1,5 +1,6 @@
 module "bootstrap" {
-  source               = "git::https://nfosdick@bitbucket.org/larkit/bootstrap.git"
+  #source               = "git::https://nfosdick@bitbucket.org/larkit/bootstrap.git"
+  source = "/Users/aalles/Projects/lark-terraform/bootstrap"
   internal_domain_name = "${var.internal_domain_name}"
   host_prefix          = "${var.host_prefix}"
   role                 = "${var.role}"
@@ -70,23 +71,6 @@ resource "aws_volume_attachment" "ebs_att" {
   count       = "${var.enable_ebs_volume}"
   device_name = "${var.device_name}"
   volume_id   = "${aws_ebs_volume.volume.id}"
-  instance_id = "${aws_instance.hostname.id}"
-}
-
-resource "aws_ebs_volume" "pulpvol" {
-  count       = "${var.role == "pulp" ? 1 : 0}"
-  availability_zone = "${var.region}${var.availability_zone}"
-  size              = "${var.ebs_volume_size}"
-  type              = "${var.ebs_type}"
-  tags {
-    Name = "${var.role} Repository Volume for ${var.host_prefix}-${var.hostname}"
-  }
-}
-
-resource "aws_volume_attachment" "ebs_att_pulp" {
-  count       = "${var.role == "pulp" ? 1 : 0}"
-  device_name = "${var.pulp_device_name}" 
-  volume_id   = "${aws_ebs_volume.pulpvol.id}"
   instance_id = "${aws_instance.hostname.id}"
 }
 
