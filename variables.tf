@@ -128,13 +128,11 @@ variable "ebs_volume_size" {
 }
 
 variable "device_name" {
-  description = "Filesystem path for EBS block device"
+  description = "The name of the ebs device"
   default     = "/dev/xvdf"
 }
-
 
 variable "bootstrap_template" {
   description = "Custom bootstrap template"
   default     = "blank"
 }
-

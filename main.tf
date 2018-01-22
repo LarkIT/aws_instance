@@ -74,8 +74,6 @@ resource "aws_volume_attachment" "ebs_att" {
   instance_id = "${aws_instance.hostname.id}"
 }
 
-
-
 #output "hostname-ext" {
 #  value = "${aws_route53_record.hostname-ext.fqdn} (${aws_eip.hostname.public_ip})"
 #}
