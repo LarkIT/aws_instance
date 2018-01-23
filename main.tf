@@ -1,6 +1,5 @@
 module "bootstrap" {
-  #source               = "git::https://nfosdick@bitbucket.org/larkit/bootstrap.git"
-  source = "/Users/aalles/Projects/lark-terraform/bootstrap"
+  source               = "git::https://github.com/LarkIT/aws_instance.git?ref=aspyrchanges"
   internal_domain_name = "${var.internal_domain_name}"
   host_prefix          = "${var.host_prefix}"
   role                 = "${var.role}"
