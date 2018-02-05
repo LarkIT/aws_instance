@@ -1,5 +1,6 @@
 module "bootstrap" {
-  source               = "git::https://github.com/LarkIT/bootstrap.git?ref=v0.0.2"
+#  source               = "git::https://github.com/LarkIT/bootstrap.git?ref=v0.0.2"
+  source               = "./bootstrap"
   internal_domain_name = "${var.internal_domain_name}"
   host_prefix          = "${var.host_prefix}"
   role                 = "${var.role}"
@@ -7,6 +8,8 @@ module "bootstrap" {
   hostname             = "${var.hostname}"
   region               = "${var.region}" 
   bootstrap_template   = "${var.bootstrap_template}"
+  puppet_server        = "${var.puppet_server}"
+  gitlab_server        = "${var.gitlab_server}"
 }
 
 resource "aws_instance" "hostname" {
