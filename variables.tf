@@ -29,18 +29,19 @@ variable "instance_type" {
   default     = "t2.micro"
 }
 
-variable "ami" {
-  description = "Virtual machine aws ami"
-  default     = "ami-f5d7f195"
+variable "os" {
+  description = "The operating system flavor of the month."
+  default     = "centos"
 }
 
-variable "centos7-ami"{
+variable "ami"{
   description = "AMIs by region"
   default = {
-    us-east-1 = "ami-46c1b650"
-    us-east-2 = "ami-18f8df7d"
-    us-west-1 = "ami-f5d7f195"
-    us-west-2 = "ami-f4533694"
+    us-east-1_centos = "ami-46c1b650"
+    us-east-1_ubuntu = "ami-81122afb"
+    us-east-2_centos = "ami-18f8df7d"
+    us-west-1_centos = "ami-f5d7f195"
+    us-west-2_centos = "ami-f4533694"
   }
 }
 
