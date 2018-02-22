@@ -13,7 +13,8 @@ module "bootstrap" {
 }
 
 resource "aws_instance" "hostname" {
-    ami                    = "${lookup(var.centos7-ami, var.region)}"
+#    ami                    = "${lookup(var.ami, var.region_var.os)}"
+    ami                    = "${lookup(var.ami, format("%s_%s",var.region, var.os))}"
     availability_zone      = "${var.region}${var.availability_zone}"
     instance_type          = "${var.instance_type}"
     key_name               = "${var.aws_key_name}"
