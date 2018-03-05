@@ -4,7 +4,9 @@
 
 # Settings you should edit
 GIT_SERVER='git@${gitlab_server}'
-CONTROL_REPO="$${GIT_SERVER}:puppet/control-repo"
+GIT_NAMESPACE='${git_namespace}'
+GIT_REPO_NAME='${git_repo_name}'
+CONTROL_REPO="$${GIT_SERVER}:$${GIT_NAMESPACE}/$${GIT_REPO_NAME}"
 HOSTNAME="$(hostname -f)"
 DOMAINNAME="$(hostname -d)"
 DNS_ALT_NAMES="puppet.$${DOMAINNAME},puppet,foreman.$${DOMAINNAME},foreman"

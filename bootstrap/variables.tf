@@ -31,7 +31,7 @@ variable "hostname" {
 
 variable "pp_env" {
   description = "Trusted fact pp_env setting"
-  default     = "production" 
+  default     = "production"
 }
 
 variable "bootstrap_template" {
@@ -47,4 +47,14 @@ variable "puppet_server" {
 variable "gitlab_server" {
   description = "Default Gitlab server name."
   default     = "gitlab-01"
+}
+
+variable "git_namespace" {
+  description = "Default Control Repo Project Name Space."
+  default     = "puppet"
+}
+
+variable "git_repo_name" {
+  description = "Default Repo Name of Control Repo URL."
+  default     = "control-repo"
 }

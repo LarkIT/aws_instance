@@ -147,3 +147,13 @@ variable "gitlab_server" {
   description = "Default Gitlab server name."
   default     = "gitlab-01"
 }
+
+variable "git_namespace" {
+  description = "Default Control Repo Project Name Space."
+  default     = "puppet"
+}
+
+variable "git_repo_name" {
+  description = "Default Repo Name of Control Repo URL."
+  default     = "control-repo"
+}
