@@ -41,11 +41,11 @@ variable "bootstrap_template" {
 
 variable "puppet_server" {
   description = "Default Puppet server name."
-  default     = "foreman-01"
+  default     = "foreman-02"
 }
 
-variable "gitlab_server" {
-  description = "Default Gitlab server name."
+variable "git_server" {
+  description = "Default Git host name."
   default     = "gitlab-01"
 }
 

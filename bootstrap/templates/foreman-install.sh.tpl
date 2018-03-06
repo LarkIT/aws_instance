@@ -3,7 +3,7 @@
 # Basic foreman setup, requires working git server with control-repo populated
 
 # Settings you should edit
-GIT_SERVER='git@${gitlab_server}'
+GIT_SERVER='git@${git_server}'
 GIT_NAMESPACE='${git_namespace}'
 GIT_REPO_NAME='${git_repo_name}'
 CONTROL_REPO="$${GIT_SERVER}:$${GIT_NAMESPACE}/$${GIT_REPO_NAME}"
@@ -64,41 +64,63 @@ if [ ! -f $$SSH_KEY_FILE ]; then
 fi
 
 # Test SSH Access (loop)
-tries=0
-while true; do
-  ((tries++))
+if [[ $${GIT_SERVER} =~ 'gitlab' ]]; then
+  tries=0
+  while true; do
+    ((tries++))
+    echo "Testing SSH Access to $${GIT_SERVER}..."
+    $$SUDO_PUPPET /bin/ssh -nTo 'StrictHostKeyChecking=no' $${GIT_SERVER}
+    return=$$?
+    if [ $$return == 0 ]; then
+      echo "Success!"
+      break
+    else
+      echo -e "\n***********\n"
+      echo "There is a problem with the puppet ssh key access to $${GIT_SERVER}"
+      echo "You need to add this SSH public key to a 'puppet-server' user in GitLab:"
+      echo ""
+      cat $${SSH_KEY_FILE}.pub
+      retry_sleep
+    fi
+  done
+
+  # Test Repo Access (loop)
+  tries=0
+  while true; do
+    ((tries++))
+    $$SUDO_PUPPET git ls-remote $${CONTROL_REPO}
+    return=$$?
+    if [ $$return == 0 ]; then
+      echo "Success!"
+      break
+    else
+      echo -e "\n***********\n"
+      echo "There is a problem with puppet user access to the Git Repo: $${CONTROL_REPO}"
+      echo "You need to grant the 'puppet-server' user in GitLab 'reporter' access to the group for the control-repo."
+      retry_sleep
+    fi
+  done
+elif [[ $${GIT_SERVER} =~ 'github' ]]; then
   echo "Testing SSH Access to $${GIT_SERVER}..."
   $$SUDO_PUPPET /bin/ssh -nTo 'StrictHostKeyChecking=no' $${GIT_SERVER}
-  return=$$?
-  if [ $$return == 0 ]; then
-    echo "Success!"
-    break
-  else
-    echo -e "\n***********\n"
-    echo "There is a problem with the puppet ssh key access to $${GIT_SERVER}"
-    echo "You need to add this SSH public key to a 'puppet-server' user in GitLab:"
-    echo ""
+  # Test Repo Access (loop)
+  tries=0
+  while true; do
     cat $${SSH_KEY_FILE}.pub
-    retry_sleep
-  fi
-done
-
-# Test Repo Access (loop)
-tries=0
-while true; do
-  ((tries++))
-  $$SUDO_PUPPET git ls-remote $${CONTROL_REPO}
-  return=$$?
-  if [ $$return == 0 ]; then
-    echo "Success!"
-    break
-  else
-    echo -e "\n***********\n"
-    echo "There is a problem with puppet user access to the Git Repo: $${CONTROL_REPO}"
-    echo "You need to grant the 'puppet-server' user in GitLab 'reporter' access to the group for the control-repo."
-    retry_sleep
-  fi
-done
+    ((tries++))
+    $$SUDO_PUPPET git ls-remote $${CONTROL_REPO}
+    return=$$?
+    if [ $$return == 0 ]; then
+      echo "Success!"
+      break
+    else
+      echo -e "\n***********\n"
+      echo "There is a problem with puppet user access to the Git Repo: $${CONTROL_REPO}"
+      echo "You need to grant the 'puppet-server' user in GitLab 'reporter' access to the group for the control-repo."
+      retry_sleep
+    fi
+  done
+fi
 
 # Install puppet modules
 #git clone https://github.com/puppetlabs/puppetlabs-stdlib.git /etc/puppetlabs/code/environments/production/modules/stdlib
@@ -142,6 +164,7 @@ grep -q 'gms/lib' $$PUPPETSERVER_CONF || sed -i -r 's#(ruby-load-path:.*)]#\1, /
 systemctl enable puppetserver
 systemctl start puppetserver
 sudo -u puppet -s /bin/bash -c "ssh -o 'StrictHostKeyChecking no' github.com"
+$$PUPPET apply -e "include profile::foreman" --tags=hiera
 $$PUPPET agent -t
 
 echo 'DONE!?'

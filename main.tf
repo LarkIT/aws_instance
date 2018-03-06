@@ -8,7 +8,7 @@ module "bootstrap" {
   region               = "${var.region}"
   bootstrap_template   = "${var.bootstrap_template}"
   puppet_server        = "${var.puppet_server}"
-  gitlab_server        = "${var.gitlab_server}"
+  git_server           = "${var.git_server}"
   git_namespace        = "${var.git_namespace}"
   git_repo_name        = "${var.git_repo_name}"
 }
@@ -20,7 +20,7 @@ resource "aws_instance" "hostname" {
     key_name               = "${var.aws_key_name}"
     vpc_security_group_ids = [ "${var.security_groups}" ]
     subnet_id              = "${var.subnet_id}"
-    user_data              = "${module.bootstrap.base_cloutinit}"
+    user_data              = "${module.bootstrap.base_cloudinit}"
     iam_instance_profile   = "${var.iam_instance_profile}"
 
     lifecycle {
