@@ -140,10 +140,20 @@ variable "bootstrap_template" {
 
 variable "puppet_server" {
   description = "Default Puppet server name."
-  default     = "foreman-01"
+  default     = "foreman-02"
 }
 
-variable "gitlab_server" {
-  description = "Default Gitlab server name."
+variable "git_server" {
+  description = "Default Git host name."
   default     = "gitlab-01"
+}
+
+variable "git_namespace" {
+  description = "Default Control Repo Project Name Space."
+  default     = "puppet"
+}
+
+variable "git_repo_name" {
+  description = "Default Repo Name of Control Repo URL."
+  default     = "control-repo"
 }
