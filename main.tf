@@ -11,6 +11,7 @@ module "bootstrap" {
   git_server           = "${var.git_server}"
   git_namespace        = "${var.git_namespace}"
   git_repo_name        = "${var.git_repo_name}"
+  additional_dns_names = "${var.additional_dns_names}"
 }
 
 resource "aws_instance" "hostname" {
