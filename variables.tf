@@ -157,3 +157,8 @@ variable "git_repo_name" {
   description = "Default Repo Name of Control Repo URL."
   default     = "control-repo"
 }
+
+variable "additional_dns_names" {
+  description = "Additional DNS Alt Names for Puppet Master."
+  default     = ""
+}

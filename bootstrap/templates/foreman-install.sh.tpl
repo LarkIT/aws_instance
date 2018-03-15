@@ -9,6 +9,7 @@ GIT_REPO_NAME='${git_repo_name}'
 CONTROL_REPO="$${GIT_SERVER}:$${GIT_NAMESPACE}/$${GIT_REPO_NAME}"
 HOSTNAME="$(hostname -f)"
 DOMAINNAME="$(hostname -d)"
+ADDITIONAL_DNS_NAMES='${additional_dns_names}'
 DNS_ALT_NAMES="puppet.$${DOMAINNAME},puppet,foreman.$${DOMAINNAME},foreman"
 
 # -------------------------------------
@@ -19,6 +20,11 @@ SUDO_PUPPET='sudo -H -u puppet'
 REQ_PKGS='epel-release git puppetserver puppet-agent'
 MAX_RETRIES=60
 RETRY_SLEEP_TIME=60
+
+# Build out DNS_ALT_NAMES if needed
+if [[ -n $${ADDITIONAL_DNS_NAMES} ]] ; then
+  DNS_ALT_NAMES="$${DNS_ALT_NAMES},$${ADDITIONAL_DNS_NAMES}"
+fi
 
 # Install pkgs if not installed
 function install_pkgs {
@@ -106,7 +112,6 @@ elif [[ $${GIT_SERVER} =~ 'github' ]]; then
   # Test Repo Access (loop)
   tries=0
   while true; do
-    cat $${SSH_KEY_FILE}.pub
     ((tries++))
     $$SUDO_PUPPET git ls-remote $${CONTROL_REPO}
     return=$$?
@@ -117,6 +122,7 @@ elif [[ $${GIT_SERVER} =~ 'github' ]]; then
       echo -e "\n***********\n"
       echo "There is a problem with puppet user access to the Git Repo: $${CONTROL_REPO}"
       echo "You need to grant the 'puppet-server' user in GitLab 'reporter' access to the group for the control-repo."
+      cat $${SSH_KEY_FILE}.pub
       retry_sleep
     fi
   done
