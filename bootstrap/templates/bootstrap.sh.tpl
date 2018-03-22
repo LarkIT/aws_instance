@@ -25,6 +25,7 @@ extension_requests:
     pp_role: ${role}
     pp_region: ${region}
     pp_application: ${host_prefix}
+    pp_cloudplatform: aws
 YAML
 
 # Configure Puppet Agent
