@@ -149,7 +149,7 @@ chown -hR puppet:puppet /etc/puppetlabs/code
 $$SUDO_PUPPET r10k deploy environment -pv
 
 # Helper Alias
-grep -q 'alias r10k' /root/.bash_profile || echo "alias r10k='cd / && sudo -H -u puppet r10k'" >> /root/.bash_profile
+grep -q 'alias r10k' /root/.bash_profile || echo "alias r10k='cd /tmp && sudo -H -u puppet r10k'" >> /root/.bash_profile
 
 # Copy hieradata in (hacky)
 cp -f /etc/puppetlabs/code/environments/production/site/profile/files/hiera.yaml /etc/puppetlabs/puppet/hiera.yaml
