@@ -59,6 +59,7 @@ set +e # exit on error
 
 # Install Stuff
 rpm -q puppetlabs-release-pc1 || yum install -y https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
+rpm -q postgresql96 || yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-redhat96-9.6-3.noarch.rpm
 install_pkgs $$REQ_PKGS
 
 # Get out of /root (prevents errors while using sudo)
@@ -170,7 +171,7 @@ grep -q 'gms/lib' $$PUPPETSERVER_CONF || sed -i -r 's#(ruby-load-path:.*)]#\1, /
 systemctl enable puppetserver
 systemctl start puppetserver
 sudo -u puppet -s /bin/bash -c "ssh -o 'StrictHostKeyChecking no' github.com"
-$$PUPPET apply -e "include profile::foreman" --tags=hiera
+$$PUPPET apply -e "include profile::foreman"
 $$PUPPET agent -t
 
 echo 'DONE!?'
