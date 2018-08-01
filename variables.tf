@@ -34,14 +34,15 @@ variable "os" {
   default     = "centos"
 }
 
-variable "ami"{
+variable "ami" {
   description = "AMIs by region"
+
   default = {
     us-east-1_centos = "ami-4bf3d731"
     us-east-1_ubuntu = "ami-81122afb"
     us-east-2_centos = "ami-18f8df7d"
     us-west-1_centos = "ami-f5d7f195"
-    us-west-2_centos = "ami-f4533694"
+    us-west-2_centos = "ami-8b44f2f3"
   }
 }
 
@@ -52,7 +53,7 @@ variable "availability_zone" {
 
 variable "aws_key_name" {
   description = "SSH Public Key Name in AWS"
-  default = "lark-provisioning"
+  default     = "lark-provisioning"
 }
 
 variable "security_groups" {
