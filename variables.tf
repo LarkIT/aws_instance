@@ -53,7 +53,7 @@ variable "availability_zone" {
 
 variable "aws_key_name" {
   description = "SSH Public Key Name in AWS"
-  default     = "lark-provisioning"
+  default     = "nico-provision"
 }
 
 variable "security_groups" {
