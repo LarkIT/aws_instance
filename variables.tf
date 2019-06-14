@@ -42,7 +42,7 @@ variable "ami" {
     us-east-1_ubuntu = "ami-81122afb"
     us-east-2_centos = "ami-18f8df7d"
     us-west-1_centos = "ami-f5d7f195"
-    us-west-2_centos = "ami-01ed306a12b7d1c96"
+    us-west-2_centos = "ami-0ebdd976"
   }
 }
 
