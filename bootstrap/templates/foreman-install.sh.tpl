@@ -148,11 +148,18 @@ chown -hR puppet:puppet /etc/puppetlabs/code
 # Deploy (or update) Puppet Code
 $SUDO_PUPPET r10k deploy environment -pv
 
+# Disable SSH strict key host checking for all hosts
+cat << EOF > $SSH_CONFIG_FILE
+Host *
+  StrictHostKeyChecking no
+
+EOF
+
 # Helper Alias
 grep -q 'alias r10k' /root/.bash_profile || echo "alias r10k='cd / && sudo -H -u puppet r10k'" >> /root/.bash_profile
 
 # Copy hieradata in (hacky)
-cp -f /etc/puppetlabs/code/environments/production/site/profile/files/hiera.yaml /etc/puppetlabs/puppet/hiera.yaml
+#cp -f /etc/puppetlabs/code/environments/production/site/profile/files/hiera.yaml /etc/puppetlabs/puppet/hiera.yaml
 
 # Temporarily set this fact directly
 mkdir -p /etc/puppetlabs/facter/facts.d
@@ -169,7 +176,7 @@ grep -q 'gms/lib' $PUPPETSERVER_CONF || sed -i -r 's#(ruby-load-path:.*)]#\1, /e
 
 systemctl enable puppetserver
 systemctl start puppetserver
-sudo -u puppet -s /bin/bash -c "ssh -o 'StrictHostKeyChecking no' github.com"
+#sudo -u puppet -s /bin/bash -c "ssh -o 'StrictHostKeyChecking no' github.com"
 $PUPPET apply -e "include profile::foreman" --tags=hiera
 $PUPPET agent -t
 
