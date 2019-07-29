@@ -6,15 +6,16 @@
 GIT_SERVER='git@${git_server}'
 GIT_NAMESPACE='${git_namespace}'
 GIT_REPO_NAME='${git_repo_name}'
-CONTROL_REPO="$${GIT_SERVER}:$${GIT_NAMESPACE}/$${GIT_REPO_NAME}"
+CONTROL_REPO="${GIT_SERVER}:${GIT_NAMESPACE}/${GIT_REPO_NAME}"
 HOSTNAME="$(hostname -f)"
 DOMAINNAME="$(hostname -d)"
 ADDITIONAL_DNS_NAMES='${additional_dns_names}'
-DNS_ALT_NAMES="puppet.$${DOMAINNAME},puppet,foreman.$${DOMAINNAME},foreman"
+DNS_ALT_NAMES="puppet.${DOMAINNAME},puppet,foreman.${DOMAINNAME},foreman"
 
 # -------------------------------------
 # You shouldn't need to edit these
 SSH_KEY_FILE='/opt/puppetlabs/server/data/puppetserver/.ssh/id_rsa'
+SSH_CONFIG_FILE='/opt/puppetlabs/server/data/puppetserver/.ssh/config'
 PUPPET='/opt/puppetlabs/puppet/bin/puppet'
 SUDO_PUPPET='sudo -H -u puppet'
 REQ_PKGS='epel-release git puppetserver puppet-agent'
@@ -22,28 +23,28 @@ MAX_RETRIES=60
 RETRY_SLEEP_TIME=60
 
 # Build out DNS_ALT_NAMES if needed
-if [[ -n $${ADDITIONAL_DNS_NAMES} ]] ; then
-  DNS_ALT_NAMES="$${DNS_ALT_NAMES},$${ADDITIONAL_DNS_NAMES}"
+if [[ -n ${ADDITIONAL_DNS_NAMES} ]] ; then
+  DNS_ALT_NAMES="${DNS_ALT_NAMES},${ADDITIONAL_DNS_NAMES}"
 fi
 
 # Install pkgs if not installed
 function install_pkgs {
-  pkgs=$$*
+  pkgs=$*
   local install_pkg=''
-  for pkg in $$REQ_PKGS; do
-    rpm -q $$pkg || install_pkg="$${install_pkg} $${pkg}"
+  for pkg in $REQ_PKGS; do
+    rpm -q $pkg || install_pkg="${install_pkg} ${pkg}"
   done
-  [ -z "$$install_pkg" ] || yum install -y $${install_pkg}
+  [ -z "$install_pkg" ] || yum install -y ${install_pkg}
 }
 
 # Retry/Sleep tracking
 function retry_sleep {
-  if [ $$tries -le $$MAX_RETRIES ]; then
+  if [ $tries -le $MAX_RETRIES ]; then
     echo ""
-    echo "Try: $$tries / $$MAX_RETRIES"
-    echo "Sleeping $$RETRY_SLEEP_TIME for retry..."
+    echo "Try: $tries / $MAX_RETRIES"
+    echo "Sleeping $RETRY_SLEEP_TIME for retry..."
     echo '------------'
-    sleep $$RETRY_SLEEP_TIME
+    sleep $RETRY_SLEEP_TIME
   else
     echo '----------------------'
     echo '- FAILED INSTALLTION -'
@@ -59,34 +60,34 @@ set +e # exit on error
 
 # Install Stuff
 rpm -q puppetlabs-release-pc1 || yum install -y https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
-rpm -q postgresql96 || yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-redhat96-9.6-3.noarch.rpm
-install_pkgs $$REQ_PKGS
+rpm -q postgresql96-server || yum install -y postgresql96-server
+install_pkgs $REQ_PKGS
 
 # Get out of /root (prevents errors while using sudo)
 cd /tmp
 
 # Ensure we have an SSH Key
-if [ ! -f $$SSH_KEY_FILE ]; then
-  $$SUDO_PUPPET ssh-keygen -t rsa -b 4096 -f $$SSH_KEY_FILE -P ""
+if [ ! -f $SSH_KEY_FILE ]; then
+  $SUDO_PUPPET ssh-keygen -t rsa -b 4096 -f $SSH_KEY_FILE -P ""
 fi
 
 # Test SSH Access (loop)
-if [[ $${GIT_SERVER} =~ 'gitlab' ]]; then
+if [[ ${GIT_SERVER} =~ 'gitlab' ]]; then
   tries=0
   while true; do
     ((tries++))
-    echo "Testing SSH Access to $${GIT_SERVER}..."
-    $$SUDO_PUPPET /bin/ssh -nTo 'StrictHostKeyChecking=no' $${GIT_SERVER}
-    return=$$?
-    if [ $$return == 0 ]; then
+    echo "Testing SSH Access to ${GIT_SERVER}..."
+    $SUDO_PUPPET /bin/ssh -nTo 'StrictHostKeyChecking=no' ${GIT_SERVER}
+    return=$?
+    if [ $return == 0 ]; then
       echo "Success!"
       break
     else
       echo -e "\n***********\n"
-      echo "There is a problem with the puppet ssh key access to $${GIT_SERVER}"
+      echo "There is a problem with the puppet ssh key access to ${GIT_SERVER}"
       echo "You need to add this SSH public key to a 'puppet-server' user in GitLab:"
       echo ""
-      cat $${SSH_KEY_FILE}.pub
+      cat ${SSH_KEY_FILE}.pub
       retry_sleep
     fi
   done
@@ -95,35 +96,35 @@ if [[ $${GIT_SERVER} =~ 'gitlab' ]]; then
   tries=0
   while true; do
     ((tries++))
-    $$SUDO_PUPPET git ls-remote $${CONTROL_REPO}
-    return=$$?
-    if [ $$return == 0 ]; then
+    $SUDO_PUPPET git ls-remote ${CONTROL_REPO}
+    return=$?
+    if [ $return == 0 ]; then
       echo "Success!"
       break
     else
       echo -e "\n***********\n"
-      echo "There is a problem with puppet user access to the Git Repo: $${CONTROL_REPO}"
+      echo "There is a problem with puppet user access to the Git Repo: ${CONTROL_REPO}"
       echo "You need to grant the 'puppet-server' user in GitLab 'reporter' access to the group for the control-repo."
       retry_sleep
     fi
   done
-elif [[ $${GIT_SERVER} =~ 'github' ]]; then
-  echo "Testing SSH Access to $${GIT_SERVER}..."
-  $$SUDO_PUPPET /bin/ssh -nTo 'StrictHostKeyChecking=no' $${GIT_SERVER}
+elif [[ ${GIT_SERVER} =~ 'github' ]]; then
+  echo "Testing SSH Access to ${GIT_SERVER}..."
+  $SUDO_PUPPET /bin/ssh -nTo 'StrictHostKeyChecking=no' ${GIT_SERVER}
   # Test Repo Access (loop)
   tries=0
   while true; do
     ((tries++))
-    $$SUDO_PUPPET git ls-remote $${CONTROL_REPO}
-    return=$$?
-    if [ $$return == 0 ]; then
+    $SUDO_PUPPET git ls-remote ${CONTROL_REPO}
+    return=$?
+    if [ $return == 0 ]; then
       echo "Success!"
       break
     else
       echo -e "\n***********\n"
-      echo "There is a problem with puppet user access to the Git Repo: $${CONTROL_REPO}"
+      echo "There is a problem with puppet user access to the Git Repo: ${CONTROL_REPO}"
       echo "You need to grant the 'puppet-server' user in GitLab 'reporter' access to the group for the control-repo."
-      cat $${SSH_KEY_FILE}.pub
+      cat ${SSH_KEY_FILE}.pub
       retry_sleep
     fi
   done
@@ -137,17 +138,24 @@ iptables -F
 setenforce 0
 iptables -L
 getenforce
-$$PUPPET module list | grep -q r10k || $$PUPPET module install puppet-r10k
-#$$PUPPET module list | grep -q puppetserver || $$PUPPET module install puppet-puppetserver
+$PUPPET module list | grep -q r10k || $PUPPET module install puppet-r10k
+#$PUPPET module list | grep -q puppetserver || $PUPPET module install puppet-puppetserver
 
 # Install R10k using puppet
-FACTER_gitremote="$${CONTROL_REPO}" $$PUPPET apply -e 'class { r10k: remote => "$${::gitremote}"  }'
+FACTER_gitremote="${CONTROL_REPO}" $PUPPET apply -e 'class { r10k: remote => "${::gitremote}"  }'
 
 # This seems dubious, like a packaging error?
 chown -hR puppet:puppet /etc/puppetlabs/code
 
+# Disable SSH strict key host checking for all hosts
+cat << EOF > $SSH_CONFIG_FILE
+Host *
+  StrictHostKeyChecking no
+
+EOF
+
 # Deploy (or update) Puppet Code
-$$SUDO_PUPPET r10k deploy environment -pv
+$SUDO_PUPPET r10k deploy environment -pv
 
 # Helper Alias
 grep -q 'alias r10k' /root/.bash_profile || echo "alias r10k='cd /tmp && sudo -H -u puppet r10k'" >> /root/.bash_profile
@@ -160,19 +168,19 @@ mkdir -p /etc/puppetlabs/facter/facts.d
 echo "role=foreman" > /etc/puppetlabs/facter/facts.d/role.txt
 
 # Puppet Cert
-hostcert=$$($$PUPPET config print hostcert)
-[ -f "$$hostcert" ] || $$PUPPET cert generate $${HOSTNAME} --dns_alt_names="$${DNS_ALT_NAMES}"
+hostcert=$($PUPPET config print hostcert)
+[ -f "$hostcert" ] || $PUPPET cert generate ${HOSTNAME} --dns_alt_names="${DNS_ALT_NAMES}"
 
 # Seriously hacky business here
 # puppetserver.conf:    ruby-load-path: [/opt/puppetlabs/puppet/lib/ruby/vendor_ruby,/etc/puppetlabs/code/environments/production/modules/gms/lib]
 PUPPETSERVER_CONF="/etc/puppetlabs/puppetserver/conf.d/puppetserver.conf"
-grep -q 'gms/lib' $$PUPPETSERVER_CONF || sed -i -r 's#(ruby-load-path:.*)]#\1, /etc/puppetlabs/code/environments/production/modules/gms/lib]#' $$PUPPETSERVER_CONF
+grep -q 'gms/lib' $PUPPETSERVER_CONF || sed -i -r 's#(ruby-load-path:.*)]#\1, /etc/puppetlabs/code/environments/production/modules/gms/lib]#' $PUPPETSERVER_CONF
 
 systemctl enable puppetserver
 systemctl start puppetserver
 sudo -u puppet -s /bin/bash -c "ssh -o 'StrictHostKeyChecking no' github.com"
-$$PUPPET apply -e "include profile::foreman"
-$$PUPPET agent -t
+$PUPPET apply -e "include profile::foreman"
+$PUPPET agent -t
 
 echo 'DONE!?'
 exit 0
