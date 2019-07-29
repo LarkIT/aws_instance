@@ -8,7 +8,7 @@ module "bootstrap" {
   region               = "${var.region}"
   bootstrap_template   = "${var.bootstrap_template}"
   puppet_server        = "${var.puppet_server}"
-  git_server           = "${var.git_server}"
+  git_server           = "${var.host_prefix}-${var.git_server}"
   git_namespace        = "${var.git_namespace}"
   git_repo_name        = "${var.git_repo_name}"
   additional_dns_names = "${var.additional_dns_names}"
