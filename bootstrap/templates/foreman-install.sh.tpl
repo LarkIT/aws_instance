@@ -142,7 +142,7 @@ $PUPPET module list | grep -q r10k || $PUPPET module install puppet-r10k
 #$PUPPET module list | grep -q puppetserver || $PUPPET module install puppet-puppetserver
 
 # Install R10k using puppet
-FACTER_gitremote="${CONTROL_REPO}" $PUPPET apply -e 'class { r10k: remote => "${::gitremote}"  }'
+FACTER_gitremote="$${CONTROL_REPO}" $$PUPPET apply -e 'class { r10k: remote => "$${::gitremote}"  }'
 
 # This seems dubious, like a packaging error?
 chown -hR puppet:puppet /etc/puppetlabs/code
