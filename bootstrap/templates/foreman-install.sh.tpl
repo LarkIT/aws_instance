@@ -41,7 +41,7 @@ function retry_sleep {
   if [ $tries -le $MAX_RETRIES ]; then
     echo ""
     echo "Try: $tries / $MAX_RETRIES"
-    echo "Sleeping $$RETRY_SLEEP_TIME for retry..."
+    echo "Sleeping $RETRY_SLEEP_TIME for retry..."
     echo '------------'
     sleep $RETRY_SLEEP_TIME
   else
