@@ -60,7 +60,7 @@ set +e # exit on error
 
 # Install Stuff
 rpm -q puppetlabs-release-pc1 || yum install -y https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
-# Install latest version of r10k that works with < ruby 2.3 before the first puppet run
+# Install latest version of r10k that works with < ruby 2.3 before the first puppet run - doing this here to avoid forking the foreman module
 /opt/puppetlabs/puppet/bin/gem install --no-rdoc --no-ri r10k --no-ri --no-rdoc --version 2.6.6
 install_pkgs $REQ_PKGS
 
