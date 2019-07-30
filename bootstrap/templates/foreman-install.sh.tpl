@@ -15,6 +15,7 @@ DNS_ALT_NAMES="puppet.$${DOMAINNAME},puppet,foreman.$${DOMAINNAME},foreman"
 # -------------------------------------
 # You shouldn't need to edit these
 SSH_KEY_FILE='/opt/puppetlabs/server/data/puppetserver/.ssh/id_rsa'
+SSH_CONFIG_FILE='/opt/puppetlabs/server/data/puppetserver/.ssh/config'
 PUPPET='/opt/puppetlabs/puppet/bin/puppet'
 SUDO_PUPPET='sudo -H -u puppet'
 REQ_PKGS='epel-release git puppetserver puppet-agent'
@@ -59,6 +60,8 @@ set +e # exit on error
 
 # Install Stuff
 rpm -q puppetlabs-release-pc1 || yum install -y https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
+# Install latest version of r10k that works with < ruby 2.3 before the first puppet run
+/opt/puppetlabs/puppet/bin/gem install --no-rdoc --no-ri r10k --no-ri --no-rdoc --version 2.6.6
 install_pkgs $REQ_PKGS
 
 # Get out of /root (prevents errors while using sudo)
