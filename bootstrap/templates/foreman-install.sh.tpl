@@ -74,6 +74,13 @@ if [ ! -f $SSH_KEY_FILE ]; then
   $SUDO_PUPPET ssh-keygen -t rsa -b 4096 -f $SSH_KEY_FILE -P ""
 fi
 
+# Disable SSH strict key host checking for all hosts
+cat << EOF > $SSH_CONFIG_FILE
+Host *
+  StrictHostKeyChecking no
+
+EOF
+
 # Test SSH Access (loop)
 if [[ $${GIT_SERVER} =~ 'gitlab' ]]; then
   tries=0
@@ -133,16 +140,12 @@ elif [[ $${GIT_SERVER} =~ 'github' ]]; then
   done
 fi
 
-# Install puppet modules
-#git clone https://github.com/puppetlabs/puppetlabs-stdlib.git /etc/puppetlabs/code/environments/production/modules/stdlib
-#git clone https://github.com/voxpupuli/puppet-r10k.git /etc/puppetlabs/code/environments/production/modules/r10k
-#git clone https://github.com/puppetlabs/puppetlabs-git.git /etc/puppetlabs/code/environments/production/modules/git
 iptables -F
 setenforce 0
 iptables -L
 getenforce
+
 $PUPPET module list | grep -q r10k || $PUPPET module install puppet-r10k
-#$PUPPET module list | grep -q puppetserver || $PUPPET module install puppet-puppetserver
 
 # Install R10k using puppet
 FACTER_gitremote="$${CONTROL_REPO}" $PUPPET apply -e 'class { r10k: remote => "$${::gitremote}"  }'
@@ -153,18 +156,8 @@ chown -hR puppet:puppet /etc/puppetlabs/code
 # Deploy (or update) Puppet Code
 $SUDO_PUPPET r10k deploy environment -pv
 
-# Disable SSH strict key host checking for all hosts
-cat << EOF > $SSH_CONFIG_FILE
-Host *
-  StrictHostKeyChecking no
-
-EOF
-
 # Helper Alias
 grep -q 'alias r10k' /root/.bash_profile || echo "alias r10k='cd /tmp && sudo -H -u puppet r10k'" >> /root/.bash_profile
-
-# Copy hieradata in (hacky)
-#cp -f /etc/puppetlabs/code/environments/production/site/profile/files/hiera.yaml /etc/puppetlabs/puppet/hiera.yaml
 
 # Temporarily set this fact directly
 mkdir -p /etc/puppetlabs/facter/facts.d
@@ -179,18 +172,30 @@ hostcert=$($PUPPET config print hostcert)
 PUPPETSERVER_CONF="/etc/puppetlabs/puppetserver/conf.d/puppetserver.conf"
 grep -q 'gms/lib' $PUPPETSERVER_CONF || sed -i -r 's#(ruby-load-path:.*)]#\1, /etc/puppetlabs/code/environments/production/modules/gms/lib]#' $PUPPETSERVER_CONF
 
+# Ensure that puppetserver is running
 systemctl enable puppetserver
 systemctl start puppetserver
-#sudo -u puppet -s /bin/bash -c "ssh -o 'StrictHostKeyChecking no' github.com"
+
+# Add missing foreman repo
+cat << EOF > /etc/yum.repos.d/foreman-rails.repo
+[foreman-rails]
+name=Foreman stable
+baseurl=http://yum.theforeman.org/rails/latest/el7/$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://yum.theforeman.org/rails/latest/RPM-GPG-KEY-foreman
+
+EOF
+
+# Apply foreman profile
 $PUPPET apply -e "include profile::foreman" --tags=hiera
+
+# Ensure httpd is running - Puppet will keep httpd running after we are bootstrapped
+systemctl enable httpd
+systemctl start httpd
+
 $PUPPET agent -t
+
 
 echo 'DONE!?'
 exit 0
-
-#mkdir -p /opt/puppetlabs/server/data/puppetserver/r10k
-#chown -R puppet:puppet /etc/puppetlabs/code /opt/puppetlabs/puppet/cache/r10k /opt/puppetlabs/server/data/puppetserver/r10k
-#chown -R puppet:puppet /etc/puppetlabs /opt/puppetlabs
-#/opt/puppetlabs/bin/puppet agent -t
-#sudo -u puppet r10k deploy environment -pv
-#rm -rf /opt/puppetlabs/puppet/cache/r10k/*
