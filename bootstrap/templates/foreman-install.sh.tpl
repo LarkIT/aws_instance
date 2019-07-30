@@ -180,7 +180,7 @@ systemctl start puppetserver
 cat << EOF > /etc/yum.repos.d/foreman-rails.repo
 [foreman-rails]
 name=Foreman stable
-baseurl=http://yum.theforeman.org/rails/latest/el7/$basearch
+baseurl=http://yum.theforeman.org/rails/latest/el7/\$basearch
 enabled=1
 gpgcheck=1
 gpgkey=https://yum.theforeman.org/rails/latest/RPM-GPG-KEY-foreman
