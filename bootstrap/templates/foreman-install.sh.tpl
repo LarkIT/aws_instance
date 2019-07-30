@@ -61,7 +61,9 @@ set +e # exit on error
 # Install Stuff
 rpm -q puppetlabs-release-pc1 || yum install -y https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
 # Install latest version of r10k that works with < ruby 2.3 before the first puppet run - doing this here to avoid forking the foreman module
-/opt/puppetlabs/puppet/bin/gem install --no-rdoc --no-ri r10k --no-ri --no-rdoc --version 2.6.6
+/opt/puppetlabs/puppet/bin/gem install r10k --no-ri --no-rdoc --version 2.6.6
+# Install latest version of webrick that works with < ruby 2.3 before the first puppet run - doing this here to avoid forking the foreman module
+/opt/puppetlabs/puppet/bin/gem install webrick --no-rdoc --no-ri --version 1.3.1
 install_pkgs $REQ_PKGS
 
 # Get out of /root (prevents errors while using sudo)
