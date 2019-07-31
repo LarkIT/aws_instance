@@ -2,6 +2,8 @@
 
 # Basic foreman setup, requires working git server with control-repo populated
 
+# See accompanying Confluence article for more information
+
 # Settings you should edit
 GIT_SERVER='git@${git_server}'
 GIT_NAMESPACE='${git_namespace}'
@@ -60,11 +62,11 @@ set +e # exit on error
 
 # Install Stuff
 rpm -q puppetlabs-release-pc1 || yum install -y https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
+install_pkgs $REQ_PKGS
 # Install latest version of r10k that works with < ruby 2.3 before the first puppet run - doing this here to avoid forking the r10k module
 /opt/puppetlabs/puppet/bin/gem install r10k --no-ri --no-rdoc --version 2.6.6
 # Install latest version of webrick that works with < ruby 2.3 before the first puppet run - doing this here to avoid forking the r10k module
 /opt/puppetlabs/puppet/bin/gem install webrick --no-rdoc --no-ri --version 1.3.1
-install_pkgs $REQ_PKGS
 
 # Get out of /root (prevents errors while using sudo)
 cd /tmp
