@@ -191,13 +191,7 @@ EOF
 
 # Apply foreman profile
 $PUPPET apply -e "include profile::foreman" --tags=hiera
-
-# Ensure httpd is running - Puppet will keep httpd running after we are bootstrapped
-systemctl enable httpd
-systemctl start httpd
-
 $PUPPET agent -t
-
 
 echo 'DONE!?'
 exit 0
